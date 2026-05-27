@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "imprint-dota2": {
+      "type": "stdio",
+      "command": "node",
+      "args": ["dist/index.js"],
+      "env": {
+        "IMPRINT_API_KEY": "YOUR_IMPRINT_API_KEY_HERE"
+      }
+    }
+  }
+}

@@ -1,0 +1,26 @@
+# Dependencies
+node_modules/
+app/node_modules/
+
+# Build output
+dist/
+app/dist/
+
+# Environment / secrets — NEVER commit API keys
+.env
+.env.*
+!.env.example
+
+# MCP config contains API key — exclude; see .mcp.json.example
+.mcp.json
+
+# Vite cache
+app/.vite/
+
+# Editor & OS
+.vscode/
+.idea/
+*.suo
+*.user
+Thumbs.db
+.DS_Store

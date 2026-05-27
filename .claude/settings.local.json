@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(Move-Item dist\\\\index.ts index.ts)",
+      "PowerShell(Move-Item \"C:\\\\Users\\\\ACSI\\\\source\\\\repos\\\\imprint-mcp\\\\dist\\\\index.ts\" \"C:\\\\Users\\\\ACSI\\\\source\\\\repos\\\\imprint-mcp\\\\index.ts\")",
+      "Bash(npm install *)",
+      "Bash(\"/c/Program Files/Microsoft Visual Studio/18/Community/MSBuild/Microsoft/VisualStudio/NodeJs/node.exe\" node_modules/.bin/vite --host)",
+      "Bash(gh auth *)",
+      "Bash(git --version)",
+      "Bash(where git *)"
+    ]
+  }
+}
