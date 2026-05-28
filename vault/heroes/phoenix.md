@@ -1,4 +1,4 @@
-# Phoenix
+﻿# Phoenix
 
 ## Role
 - Primary position: <!-- 1 / 2 / 3 / 4 / 5 -->
@@ -37,3 +37,4 @@
 > [2026-05-28]: UTILITY ITEMS — Lotus Orb or Scythe of Vyse (Hex) after core, depending on what the team needs.
 > [2026-05-28]: LATE GAME SCALING — Shiva's Guard (AOE slow, fits teamfight), Refresher Orb (double Supernova — extremely high teamfight value), or Aghanim's Scepter for further upgrade.
 > [2026-05-28]: REFRESHER PATTERN — Phoenix + Refresher Orb in late game = double Supernova. Very high teamfight value, hard to deal with without multiple Supernova counters available.
+> [2026-05-28]: DREAMLEAGUE S29 WIN RATE NOTE -- 43.5% WR on 62 picks (most picked pos 5). Below-average performance at high volume. Same comfort pick dynamic -- weaker teams gravitate to it while top teams ban it when facing strong Phoenix players.

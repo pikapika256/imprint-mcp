@@ -1,4 +1,4 @@
-# Techies
+﻿# Techies
 
 ## Role
 - Primary position: <!-- 1 / 2 / 3 / 4 / 5 -->
@@ -34,3 +34,4 @@
 > [2026-05-27]: Blink Dagger / Force Staff — enables mine placement in unexpected locations and escape after Blast Off.
 
 > [2026-05-28]: FLEX — Genuine pos 4 OR pos 5 this patch. Map control role (mine vision) functions regardless of position label.
+> [2026-05-28]: DREAMLEAGUE S29 WIN RATE NOTE -- 39.1% WR on 46 picks. Lower WR reflects comfort pick pattern by weaker teams. Hero is banned when top teams would play it, deflating the overall win rate.

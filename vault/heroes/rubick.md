@@ -1,4 +1,4 @@
-# Rubick
+﻿# Rubick
 
 ## Role
 - Primary position: <!-- 1 / 2 / 3 / 4 / 5 -->
@@ -34,3 +34,4 @@
 > [2026-05-27]: DRAFT SIGNAL — If enemy team has strong catch/kill heroes, Rubick is an excellent answer — he negates catches with Force Staff saves AND punishes the enemy by stealing their stun/engage tool.
 
 > [2026-05-28]: FLEX — Genuine pos 4 OR pos 5 this patch. Draft ambiguity is a feature — opponent cannot lock in their lane assignments confidently.
+> [2026-05-28]: DREAMLEAGUE S29 WIN RATE NOTE -- 39.2% WR in DreamLeague S29 (79 picks). Lower WR partly reflects pick pattern: weaker teams pick this hero as a comfort pick while stronger teams ban it when facing opponents who play it well. Win rate is deflated by being played against top-tier opponents who know how to counter it, while it gets banned away in matchups where it would perform best.

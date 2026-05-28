@@ -37,3 +37,5 @@
 > [2026-05-28]: ITEM BUILD (CORE) -- Kaya and Sange is a core item. Provides spell amplification, HP, and status resistance.
 > [2026-05-28]: ITEM BUILD (STANDARD) -- Aghanim's Scepter, Octarine Core, BKB, Refresher Orb form the backbone of the late-game build. BKB enables safe initiation; Refresher provides double fight presence; Octarine reduces cooldowns across the kit.
 > [2026-05-28]: ITEM BUILD (SITUATIONAL) -- Manta Style or Eul's Scepter of Divinity against lineups with silences or roots (dispel or self-purge). Shiva's Guard against healing-focused lineups (applies healing reduction debuff). Hydra's Breath against high-HP cores -- Sleight of Fist hits multiple times per cast, applying Hydra's Breath's 2.5% max health DoT on each hit, making the item highly efficient when the target has a large HP pool.
+
+> [2026-05-28]: DREAMLEAGUE S29 WIN RATE NOTE -- 38.1% WR on 42 picks. Underperforming in this tournament. Same pattern: comfort pick for lower-performing teams while being banned in matchups against top teams who play it best.
