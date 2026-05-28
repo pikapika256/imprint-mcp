@@ -1,25 +1,6 @@
 ﻿# Ursa
-
-## Role
-- Primary position: <!-- 1 / 2 / 3 / 4 / 5 -->
-- Can flex to: <!-- other positions if applicable -->
-
-## Strengths
-<!-- What makes this hero strong? When should you pick it? -->
-
-## Weaknesses
-<!-- What counters this hero? What matchups to avoid? -->
-
-## Key Item Builds
-<!-- Items that define this hero or change the matchup significantly -->
-
-## Matchup Notes
-<!-- Specific hero matchup observations (good against / bad against) -->
-
-## Pro Meta Notes
-<!-- Current patch meta observations for this hero -->
-
-## Player Associations
-<!-- Any notable players known for this hero -->
-
-> [2026-05-28]: MATCHUP (BAD) -- Countered by ranged carries who avoid right-click trades and can apply Break. Windranger and Muerta are strong target picks against this hero. Muerta's Silver Edge removes passive abilities; both heroes kite with mobility and deal high ranged damage output.
+> [2026-05-28]: ROLE -- Position 1 carry.
+> [2026-05-28]: IDENTITY -- Strong laning hero specifically against immobile strength heroes. Built-in status resistance and damage resistance (Enrage) makes him effective at sticking to low-mobility, high-damage heroes and surviving their burst while returning damage.
+> [2026-05-28]: ITEM BUILD (CORE) -- BKB (spell immunity to enable safe fighting), Blink Dagger (gap close/initiation), Basher/Abyssal Blade (lockdown to keep targets in range). Very reliant on all three to function in the mid-late game.
+> [2026-05-28]: MATCHUP (BAD) -- Countered by ranged carries with high damage output and mobility (Windranger, Muerta). Silver Edge applies Break removing Fury Swipes passive. See heroes/windranger.md and heroes/muerta.md.
+> [2026-05-28]: META (DreamLeague S29) -- 45.0% win rate on 20 picks, 30 bans. Moderate performer.

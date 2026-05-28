@@ -1,23 +1,5 @@
-# Terrorblade
-
-## Role
-- Primary position: <!-- 1 / 2 / 3 / 4 / 5 -->
-- Can flex to: <!-- other positions if applicable -->
-
-## Strengths
-<!-- What makes this hero strong? When should you pick it? -->
-
-## Weaknesses
-<!-- What counters this hero? What matchups to avoid? -->
-
-## Key Item Builds
-<!-- Items that define this hero or change the matchup significantly -->
-
-## Matchup Notes
-<!-- Specific hero matchup observations (good against / bad against) -->
-
-## Pro Meta Notes
-<!-- Current patch meta observations for this hero -->
-
-## Player Associations
-<!-- Any notable players known for this hero -->
+﻿# Terrorblade
+> [2026-05-28]: ROLE -- Position 1 carry. Illusion-based carry.
+> [2026-05-28]: IDENTITY -- High armour and damage output. Low mobility and small HP pool. Creates illusions that deal significant damage.
+> [2026-05-28]: WEAKNESS -- Punished by high magic damage from range before he can respond. Low HP pool means burst magic damage can kill him quickly. Limited mobility means he cannot easily escape or reposition.
+> [2026-05-28]: META (DreamLeague S29) -- 31.6% win rate on 19 picks, 24 bans. Poor performance in this tournament.

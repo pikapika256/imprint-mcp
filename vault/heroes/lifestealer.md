@@ -1,23 +1,6 @@
-# Lifestealer
-
-## Role
-- Primary position: <!-- 1 / 2 / 3 / 4 / 5 -->
-- Can flex to: <!-- other positions if applicable -->
-
-## Strengths
-<!-- What makes this hero strong? When should you pick it? -->
-
-## Weaknesses
-<!-- What counters this hero? What matchups to avoid? -->
-
-## Key Item Builds
-<!-- Items that define this hero or change the matchup significantly -->
-
-## Matchup Notes
-<!-- Specific hero matchup observations (good against / bad against) -->
-
-## Pro Meta Notes
-<!-- Current patch meta observations for this hero -->
-
-## Player Associations
-<!-- Any notable players known for this hero -->
+﻿# Lifestealer
+> [2026-05-28]: ROLE -- Position 1 carry.
+> [2026-05-28]: IDENTITY -- Built-in BKB via Rage ability (spell immunity). Makes him inherently strong in games where BKB is valuable. Feast deals percentage-based damage, making him effective against high HP pool heroes regardless of armour.
+> [2026-05-28]: LANING -- Does not offer strong kill threat in lane. Requires items to become dangerous -- farm-dependent hero.
+> [2026-05-28]: ITEM BUILD (STANDARD) -- Radiance (farming + passive burn), Armlet of Mordiggian (HP toggle + damage), Sange and Yasha or Manta Style (mobility + stats). Build focuses on farming efficiency into late-game fighting power.
+> [2026-05-28]: META (DreamLeague S29) -- 53.8% win rate on 13 picks, 30 bans. Solid performer at low volume.

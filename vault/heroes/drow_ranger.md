@@ -1,23 +1,5 @@
-# Drow Ranger
-
-## Role
-- Primary position: <!-- 1 / 2 / 3 / 4 / 5 -->
-- Can flex to: <!-- other positions if applicable -->
-
-## Strengths
-<!-- What makes this hero strong? When should you pick it? -->
-
-## Weaknesses
-<!-- What counters this hero? What matchups to avoid? -->
-
-## Key Item Builds
-<!-- Items that define this hero or change the matchup significantly -->
-
-## Matchup Notes
-<!-- Specific hero matchup observations (good against / bad against) -->
-
-## Pro Meta Notes
-<!-- Current patch meta observations for this hero -->
-
-## Player Associations
-<!-- Any notable players known for this hero -->
+﻿# Drow Ranger
+> [2026-05-28]: ROLE -- Position 1 carry. Upcoming pick favoured by some teams in 7.41c.
+> [2026-05-28]: IDENTITY -- High attack range and high DPS. Limited mobility. Counters heroes she outranges that cannot close the gap -- deals damage freely from a position enemies cannot safely reach.
+> [2026-05-28]: WEAKNESS -- Countered by high-mobility heroes that can gap close and stick to her. Once a mobile hero gets on top of Drow Ranger she has very limited options to disengage.
+> [2026-05-28]: META (DreamLeague S29) -- 53.3% win rate on 15 picks, 24 bans. Solid performer. Noted as an emerging pick in the current meta.
