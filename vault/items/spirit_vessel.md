@@ -1,0 +1,2 @@
+> [2026-05-28]: Core first item on Phoenix in 7.41c. Healing reduction aligns with Phoenix's kit identity (anti-sustain). Provides survivability stats and damage over time component.
+> [2026-05-28]: Generally strong on supports that want to reduce healing-reliant enemy heroes. Pairs with Doom (which also prevents healing) for maximum anti-sustain pressure.

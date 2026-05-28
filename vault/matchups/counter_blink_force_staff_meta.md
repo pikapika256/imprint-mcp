@@ -1,0 +1,1 @@
+> [2026-05-28]: CORRECTION — Doom does NOT remove BKB. BKB remains a full counter to the caster meta without a hard answer from Doom. Do not draft Doom expecting it to solve a BKB-reliant enemy.

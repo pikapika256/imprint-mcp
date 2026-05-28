@@ -1,0 +1,2 @@
+> [2026-05-27]: STRONG MATCHUP vs PHOENIX — Biggest lane counter to Phoenix in 7.41c. Disable toolkit (Enfeeble, Brain Sap, Nightmare, Fiend's Grip) is effective during the long early cooldown window.
+> [2026-05-27]: Consider as pos 4/5 answer when Phoenix is in enemy draft.

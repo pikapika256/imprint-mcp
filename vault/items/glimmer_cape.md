@@ -1,0 +1,2 @@
+> [2026-05-27]: WEAK in 7.41c — below meta strength. Traditional pos 4/5 item that is underperforming relative to mobility alternatives.
+> [2026-05-27]: Avoid prioritising Glimmer Cape in current draft plans — enemies are unlikely to be punished by the invis + magic resist in this meta.

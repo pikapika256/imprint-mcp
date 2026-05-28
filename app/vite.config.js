@@ -27,7 +27,7 @@ function parseEnv() {
 // ── Notes API Vite plugin ─────────────────────────────────────────────────────
 // Serves D:\DotaAI as a local REST API so the React app can read/write vault
 // files from the browser without needing a separate backend process.
-const VAULT = 'D:\\DotaAI'
+const VAULT = resolve(__dirname, '..', 'vault')
 
 function notesApiPlugin() {
   return {

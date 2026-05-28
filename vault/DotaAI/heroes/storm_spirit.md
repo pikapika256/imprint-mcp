@@ -1,0 +1,2 @@
+> [2026-05-27]: TIER — Top pos 2 mid in 7.41c. Spirit heroes as class are dominant.
+> [2026-05-27]: Backline diver — punishes caster supports before they set up. Natural counter to the Blink/Force Staff caster meta.

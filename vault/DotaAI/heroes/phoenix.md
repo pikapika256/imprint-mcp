@@ -1,0 +1,2 @@
+> [2026-05-27]: LANE COUNTER — Bane is the strongest lane counter. General lane counters are soft. Heroes with mobility/disables are fine in the matchup — can punish during the long early CD window.
+> [2026-05-27]: Avoid heroes that are very susceptible to Fire Spirits damage when Phoenix spells are available.
