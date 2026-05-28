@@ -48,6 +48,9 @@ const LEAGUE_WEIGHTS = [1.0, 0.3, 0.1, 0.05]
 // If a historical league's patch differs from the selected league's patch,
 // apply a ×0.5 multiplier to reduce stale meta impact.
 const PATCH_WINDOWS = [
+  { start: '2026-04-01', patch: '7.41' },  // 7.41 / 7.41c
+  { start: '2026-01-01', patch: '7.40' },
+  { start: '2025-09-01', patch: '7.39' },
   { start: '2025-03-01', patch: '7.38' },
   { start: '2024-09-01', patch: '7.37' },
   { start: '2024-05-01', patch: '7.36' },
