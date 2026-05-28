@@ -1,25 +1,6 @@
 ﻿# Ancient Apparition
-
-## Role
-- Primary position: <!-- 1 / 2 / 3 / 4 / 5 -->
-- Can flex to: <!-- other positions if applicable -->
-
-## Strengths
-<!-- What makes this hero strong? When should you pick it? -->
-
-## Weaknesses
-<!-- What counters this hero? What matchups to avoid? -->
-
-## Key Item Builds
-<!-- Items that define this hero or change the matchup significantly -->
-
-## Matchup Notes
-<!-- Specific hero matchup observations (good against / bad against) -->
-
-## Pro Meta Notes
-<!-- Current patch meta observations for this hero -->
-
-## Player Associations
-<!-- Any notable players known for this hero -->
-
-> [2026-05-28]: HUSKAR COUNTER -- Ancient Apparition is considered a hard counter to Huskar. Ice Blast prevents all regeneration and healing, removing Huskar's primary survival mechanism. Always worth considering as a ban or pick when Huskar is in the draft.
+> [2026-05-28]: ROLE -- Position 5 support.
+> [2026-05-28]: IDENTITY -- Primarily picked as an anti-heal counter. Ice Blast applies a debuff that prevents all regeneration and healing on the target, and kills them if they drop below a health threshold while affected. Outside of the anti-heal function, the hero offers limited utility -- no mobility, no reliable lockdown.
+> [2026-05-28]: HUSKAR COUNTER -- Hard counter to Huskar. Ice Blast removes Huskar'"'"'s primary survival mechanism (high regeneration). See heroes/huskar.md.
+> [2026-05-28]: DRAFT NOTE -- Purely situational pick. Pick when the enemy draft relies heavily on healing or regeneration (Huskar, Lifestealer, Necrophos, Omniknight, Dazzle saves). Provides little value outside that specific counter context.
+> [2026-05-28]: META (DreamLeague S29) -- 0% win rate on 1 pick, 4 bans. Bans reflect the threat of anti-heal in specific matchups.

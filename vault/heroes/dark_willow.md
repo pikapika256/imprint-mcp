@@ -1,23 +1,5 @@
-# Dark Willow
-
-## Role
-- Primary position: <!-- 1 / 2 / 3 / 4 / 5 -->
-- Can flex to: <!-- other positions if applicable -->
-
-## Strengths
-<!-- What makes this hero strong? When should you pick it? -->
-
-## Weaknesses
-<!-- What counters this hero? What matchups to avoid? -->
-
-## Key Item Builds
-<!-- Items that define this hero or change the matchup significantly -->
-
-## Matchup Notes
-<!-- Specific hero matchup observations (good against / bad against) -->
-
-## Pro Meta Notes
-<!-- Current patch meta observations for this hero -->
-
-## Player Associations
-<!-- Any notable players known for this hero -->
+﻿# Dark Willow
+> [2026-05-28]: ROLE -- Position 4 support.
+> [2026-05-28]: IDENTITY -- Damage and soft control support. Bramble Maze, Shadow Realm, and Terrorize provide a mix of slows, roots, and fear. Mobile and aggressive support.
+> [2026-05-28]: WEAKNESS -- Most control is soft (roots, slows, fear) and blocked by BKB. Very squishy -- AOE damage kills her quickly if caught. Requires staying at range and avoiding AOE.
+> [2026-05-28]: META (DreamLeague S29) -- 20.0% win rate on 5 picks, 1 ban. Poor performance in this tournament.
