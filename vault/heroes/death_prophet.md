@@ -1,23 +1,6 @@
-# Death Prophet
-
-## Role
-- Primary position: <!-- 1 / 2 / 3 / 4 / 5 -->
-- Can flex to: <!-- other positions if applicable -->
-
-## Strengths
-<!-- What makes this hero strong? When should you pick it? -->
-
-## Weaknesses
-<!-- What counters this hero? What matchups to avoid? -->
-
-## Key Item Builds
-<!-- Items that define this hero or change the matchup significantly -->
-
-## Matchup Notes
-<!-- Specific hero matchup observations (good against / bad against) -->
-
-## Pro Meta Notes
-<!-- Current patch meta observations for this hero -->
-
-## Player Associations
-<!-- Any notable players known for this hero -->
+﻿# Death Prophet
+> [2026-05-28]: ROLE -- Position 2 mid or position 3 offlaner.
+> [2026-05-28]: IDENTITY -- Stable laner with very few bad matchups. Very tanky and relies on Spirit Siphon for sustain in lane and fights (drains HP from nearby enemies). High damage and strong objective-taking potential during Exorcism ultimate.
+> [2026-05-28]: MATCHUP NOTE -- As a pos 3, Drow Ranger is the hardest counter due to outranging and kiting Death Prophet.
+> [2026-05-28]: ITEM BUILD -- Survivability items + Blink Dagger. Blink enables getting on top of a target and sticking to them while Spirit Siphon drains. Plays to stay close and sustain through incoming damage rather than bursting quickly.
+> [2026-05-28]: META (DreamLeague S29) -- 37.5% win rate on 8 picks, 9 bans. Below-average performance.

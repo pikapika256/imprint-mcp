@@ -1,23 +1,6 @@
-# Magnus
-
-## Role
-- Primary position: <!-- 1 / 2 / 3 / 4 / 5 -->
-- Can flex to: <!-- other positions if applicable -->
-
-## Strengths
-<!-- What makes this hero strong? When should you pick it? -->
-
-## Weaknesses
-<!-- What counters this hero? What matchups to avoid? -->
-
-## Key Item Builds
-<!-- Items that define this hero or change the matchup significantly -->
-
-## Matchup Notes
-<!-- Specific hero matchup observations (good against / bad against) -->
-
-## Pro Meta Notes
-<!-- Current patch meta observations for this hero -->
-
-## Player Associations
-<!-- Any notable players known for this hero -->
+﻿# Magnus
+> [2026-05-28]: ROLE -- Position 2 mid or position 3 offlaner.
+> [2026-05-28]: IDENTITY -- Teamfight initiator and repositioner. Reverse Polarity is a BKB-piercing AOE pull + stun -- one of the most powerful teamfight ultimates. Can reposition enemy heroes, making immobile heroes that cannot handle being pulled a weakness against Magnus.
+> [2026-05-28]: ITEM BUILD (RIGHT-CLICK) -- Harpoon + BKB then standard melee carry items. Physical damage carry build.
+> [2026-05-28]: ITEM BUILD (SPELL) -- Kaya and Yasha + Aghanim'"'"'s Scepter + Refresher Orb and/or Octarine Core. Double Reverse Polarity with Refresher provides two teamfight ultimates per fight.
+> [2026-05-28]: META (DreamLeague S29) -- 42.9% win rate on 7 picks, 3 bans. Below-average performance at very low volume.

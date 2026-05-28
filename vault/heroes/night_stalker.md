@@ -1,23 +1,5 @@
-# Night Stalker
-
-## Role
-- Primary position: <!-- 1 / 2 / 3 / 4 / 5 -->
-- Can flex to: <!-- other positions if applicable -->
-
-## Strengths
-<!-- What makes this hero strong? When should you pick it? -->
-
-## Weaknesses
-<!-- What counters this hero? What matchups to avoid? -->
-
-## Key Item Builds
-<!-- Items that define this hero or change the matchup significantly -->
-
-## Matchup Notes
-<!-- Specific hero matchup observations (good against / bad against) -->
-
-## Pro Meta Notes
-<!-- Current patch meta observations for this hero -->
-
-## Player Associations
-<!-- Any notable players known for this hero -->
+﻿# Night Stalker
+> [2026-05-28]: ROLE -- Position 3 offlaner primarily. Can be played position 2 with the same role and build.
+> [2026-05-28]: IDENTITY -- Blink + BKB initiator. Long silence (Void) enables sticking to targets before they get BKB and locks down high-mobility heroes in the window before BKB comes online.
+> [2026-05-28]: ULTIMATE -- Darkness provides flying vision globally for Night Stalker'"'"'s team. Creates a vision advantage that hard counters save supports -- Night Stalker can see and reach them before they can react. Long silence prevents save supports from using their spells when he dives them.
+> [2026-05-28]: META (DreamLeague S29) -- 60.0% win rate on 5 picks, 7 bans. Strong performer at very low volume.

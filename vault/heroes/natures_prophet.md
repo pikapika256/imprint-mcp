@@ -1,23 +1,5 @@
-# Nature's Prophet
-
-## Role
-- Primary position: <!-- 1 / 2 / 3 / 4 / 5 -->
-- Can flex to: <!-- other positions if applicable -->
-
-## Strengths
-<!-- What makes this hero strong? When should you pick it? -->
-
-## Weaknesses
-<!-- What counters this hero? What matchups to avoid? -->
-
-## Key Item Builds
-<!-- Items that define this hero or change the matchup significantly -->
-
-## Matchup Notes
-<!-- Specific hero matchup observations (good against / bad against) -->
-
-## Pro Meta Notes
-<!-- Current patch meta observations for this hero -->
-
-## Player Associations
-<!-- Any notable players known for this hero -->
+﻿# Nature'"'"'s Prophet
+> [2026-05-28]: ROLE -- Can be played in all five roles. Currently most popular as position 1 carry.
+> [2026-05-28]: IDENTITY -- Strong laner with a global teleport (Teleportation) enabling constant map presence. Can be anywhere on the map at any time, making him one of the most active farming heroes in the game.
+> [2026-05-28]: ITEM BUILD -- Maelstrom into Mjollnir for farming speed. After core, follows a standard ranged right-click carry build. Has no natural damage amplification, so does not scale as strongly as other ranged right-click carries in raw DPS. Global pressure and map activity compensate for this ceiling.
+> [2026-05-28]: META (DreamLeague S29) -- 33.3% win rate on 9 picks, 21 bans. Below-average performance in this tournament.

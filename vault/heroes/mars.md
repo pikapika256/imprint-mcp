@@ -1,23 +1,5 @@
-# Mars
-
-## Role
-- Primary position: <!-- 1 / 2 / 3 / 4 / 5 -->
-- Can flex to: <!-- other positions if applicable -->
-
-## Strengths
-<!-- What makes this hero strong? When should you pick it? -->
-
-## Weaknesses
-<!-- What counters this hero? What matchups to avoid? -->
-
-## Key Item Builds
-<!-- Items that define this hero or change the matchup significantly -->
-
-## Matchup Notes
-<!-- Specific hero matchup observations (good against / bad against) -->
-
-## Pro Meta Notes
-<!-- Current patch meta observations for this hero -->
-
-## Player Associations
-<!-- Any notable players known for this hero -->
+﻿# Mars
+> [2026-05-28]: ROLE -- Position 3 offlaner.
+> [2026-05-28]: IDENTITY -- Solid laning in most situations. Counters ranged right-click heroes with Arena of Blood (prevents right-click attacks through the ring walls) and Bulwark passive (damage reduction from the front/sides). Good teamfight with Arena of Blood trapping multiple heroes.
+> [2026-05-28]: ITEM BUILD -- Reliant on Blink Dagger + BKB. Blink enables Arena placement; BKB allows survival inside the fight.
+> [2026-05-28]: META (DreamLeague S29) -- 28.6% win rate on 7 picks, 4 bans. Poor performance in this tournament.

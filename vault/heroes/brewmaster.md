@@ -1,23 +1,5 @@
-# Brewmaster
-
-## Role
-- Primary position: <!-- 1 / 2 / 3 / 4 / 5 -->
-- Can flex to: <!-- other positions if applicable -->
-
-## Strengths
-<!-- What makes this hero strong? When should you pick it? -->
-
-## Weaknesses
-<!-- What counters this hero? What matchups to avoid? -->
-
-## Key Item Builds
-<!-- Items that define this hero or change the matchup significantly -->
-
-## Matchup Notes
-<!-- Specific hero matchup observations (good against / bad against) -->
-
-## Pro Meta Notes
-<!-- Current patch meta observations for this hero -->
-
-## Player Associations
-<!-- Any notable players known for this hero -->
+﻿# Brewmaster
+> [2026-05-28]: ROLE -- Position 3 offlaner.
+> [2026-05-28]: IDENTITY -- Not reliant on items -- scales primarily with levels. Weak laning phase but becomes very strong in teamfights once his ultimate (Primal Split) is available. Primal Split creates three elemental units that each have powerful abilities, providing enormous teamfight disruption.
+> [2026-05-28]: WEAKNESS -- Countered by heroes that can silence him before he casts Primal Split. If silenced, Brewmaster cannot use his ultimate and is significantly weaker.
+> [2026-05-28]: META (DreamLeague S29) -- 66.7% win rate on 6 picks, 5 bans. Strong performer at very low volume.

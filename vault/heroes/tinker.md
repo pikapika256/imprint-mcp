@@ -1,23 +1,6 @@
-# Tinker
-
-## Role
-- Primary position: <!-- 1 / 2 / 3 / 4 / 5 -->
-- Can flex to: <!-- other positions if applicable -->
-
-## Strengths
-<!-- What makes this hero strong? When should you pick it? -->
-
-## Weaknesses
-<!-- What counters this hero? What matchups to avoid? -->
-
-## Key Item Builds
-<!-- Items that define this hero or change the matchup significantly -->
-
-## Matchup Notes
-<!-- Specific hero matchup observations (good against / bad against) -->
-
-## Pro Meta Notes
-<!-- Current patch meta observations for this hero -->
-
-## Player Associations
-<!-- Any notable players known for this hero -->
+﻿# Tinker
+> [2026-05-28]: ROLE -- Position 2 mid.
+> [2026-05-28]: IDENTITY -- Hyper farmer with no particularly good or bad lane matchups. Does not spike until level 18 when Kaya + Blink Dagger + Aghanim'"'"'s Scepter come online together. Before that point the hero provides limited fighting impact.
+> [2026-05-28]: ITEM BUILD -- Kaya, Blink Dagger, Aghanim'"'"'s Scepter as the core timing. After level 18 with items complete becomes a very mobile high-damage spell caster using Boots of Travel resets.
+> [2026-05-28]: WEAKNESS -- Countered by BKB (blocks March of the Machines and Laser) and by heroes that can catch or provide vision of Tinker (his strength relies on retreating safely to base to refresh items).
+> [2026-05-28]: META (DreamLeague S29) -- 33.3% win rate on 3 picks, 21 bans. Almost always banned. Very low pick count.

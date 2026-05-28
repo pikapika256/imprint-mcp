@@ -1,23 +1,5 @@
-# Phantom Lancer
-
-## Role
-- Primary position: <!-- 1 / 2 / 3 / 4 / 5 -->
-- Can flex to: <!-- other positions if applicable -->
-
-## Strengths
-<!-- What makes this hero strong? When should you pick it? -->
-
-## Weaknesses
-<!-- What counters this hero? What matchups to avoid? -->
-
-## Key Item Builds
-<!-- Items that define this hero or change the matchup significantly -->
-
-## Matchup Notes
-<!-- Specific hero matchup observations (good against / bad against) -->
-
-## Pro Meta Notes
-<!-- Current patch meta observations for this hero -->
-
-## Player Associations
-<!-- Any notable players known for this hero -->
+﻿# Phantom Lancer
+> [2026-05-28]: ROLE -- Position 1 carry. Illusion-based carry.
+> [2026-05-28]: IDENTITY -- Extremely hard to deal with without AOE damage. Once Manta Style + Aghanim'"'"'s Scepter + Heart of Tarrasque are complete with no enemy AOE answer the game is essentially over -- illusion count becomes overwhelming.
+> [2026-05-28]: WEAKNESS -- AOE damage (Leshrac, Enigma, Sand King) counters the illusion identity. Laning phase is punishable. Requires 4 core items to be truly online -- very farm-dependent.
+> [2026-05-28]: META (DreamLeague S29) -- 50.0% win rate on 4 picks, 5 bans.

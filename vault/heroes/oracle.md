@@ -1,23 +1,4 @@
-# Oracle
-
-## Role
-- Primary position: <!-- 1 / 2 / 3 / 4 / 5 -->
-- Can flex to: <!-- other positions if applicable -->
-
-## Strengths
-<!-- What makes this hero strong? When should you pick it? -->
-
-## Weaknesses
-<!-- What counters this hero? What matchups to avoid? -->
-
-## Key Item Builds
-<!-- Items that define this hero or change the matchup significantly -->
-
-## Matchup Notes
-<!-- Specific hero matchup observations (good against / bad against) -->
-
-## Pro Meta Notes
-<!-- Current patch meta observations for this hero -->
-
-## Player Associations
-<!-- Any notable players known for this hero -->
+﻿# Oracle
+> [2026-05-28]: ROLE -- Position 5 support. Save support.
+> [2026-05-28]: IDENTITY -- Classic save support. Purifying Flames, False Promise, and Fortune'"'"'s End provide strong healing and save potential. No mobility. Can be weak in lane.
+> [2026-05-28]: NOTE -- Specific build and synergies to be expanded with additional data.
