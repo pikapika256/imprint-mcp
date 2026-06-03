@@ -1,0 +1,1 @@
+> [2026-05-27]: TIER — Top pos 2 mid in 7.41c. Versatile toolkit — Cold Snap + Tornado disrupts Blink setups, Sunstrike punishes mispositioned casters.

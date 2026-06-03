@@ -1,0 +1,1 @@
+> [2026-05-27]: TIER — Top 3 pos 1 carry in 7.41c. Passive magic immunity during ultimate provides natural resistance to caster meta.

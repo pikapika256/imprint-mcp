@@ -48,6 +48,9 @@ const LEAGUE_WEIGHTS = [1.0, 0.3, 0.1, 0.05]
 // If a historical league's patch differs from the selected league's patch,
 // apply a ×0.5 multiplier to reduce stale meta impact.
 const PATCH_WINDOWS = [
+  { start: '2026-04-01', patch: '7.41' },  // 7.41 / 7.41c
+  { start: '2026-01-01', patch: '7.40' },
+  { start: '2025-09-01', patch: '7.39' },
   { start: '2025-03-01', patch: '7.38' },
   { start: '2024-09-01', patch: '7.37' },
   { start: '2024-05-01', patch: '7.36' },
@@ -260,7 +263,124 @@ function classifyHeroesWeighted(weightedEntries, leagueHeroes, banData) {
   }).sort((a, b) => b.weighted_games - a.weighted_games)
 }
 
-function buildContextPacket({ ourTeam, oppTeam, ourWeighted, oppWeighted, ourBanData, oppBanData, leagueHeroes, league, radiant, firstPick }) {
+// ── Knowledge base helpers ────────────────────────────────────────────────────
+
+function slugify(s) {
+  return (s || '').toLowerCase().replace(/'/g, '').replace(/[^a-z0-9]+/g, '_').replace(/^_+|_+$/g, '')
+}
+
+function parseSaveDirective(text) {
+  const m = text.match(/SAVE_NOTE:\s*([^|\n]+?)\s*\|\s*(append|overwrite)\s*\|\s*([\s\S]+?)(?=\n\nSAVE_NOTE:|\n\nBROWSE:|\n\n[A-Z]|\s*$)/)
+  if (!m) return null
+  return { path: m[1].trim(), mode: m[2].trim(), content: m[3].trim() }
+}
+
+async function executeNoteSave({ path: filePath, mode, content }) {
+  const r = await fetch('/api/notes/write', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ path: filePath, mode, content }),
+  })
+  if (!r.ok) throw new Error(`Save failed: ${r.status}`)
+  return r.json()
+}
+
+// Loads relevant notes from D:\DotaAI, respecting a character budget.
+// ourTeam/oppTeam: raw team objects from API. heroNames: string[].
+async function loadRelevantNotes(ourTeam, oppTeam, heroNames, currentPatch) {
+  const CHAR_BUDGET = 10000
+  let used = 0
+  const result = {
+    philosophy: null, patch_notes: null,
+    hero_notes: {}, matchup_notes: {}, position_notes: {},
+    player_notes: {}, team_notes: {}, item_notes: null,
+    loaded_files: [], total_chars: 0, truncated: false,
+  }
+
+  async function readNote(relPath) {
+    try {
+      const r = await fetch(`/api/notes/read?path=${encodeURIComponent(relPath)}`)
+      if (!r.ok) return null
+      return await r.text()
+    } catch { return null }
+  }
+
+  function charge(content, maxChars) {
+    if (used >= CHAR_BUDGET) { result.truncated = true; return null }
+    const available = Math.min(maxChars, CHAR_BUDGET - used)
+    const text = content.slice(0, available)
+    if (text.length < content.length) result.truncated = true
+    used += text.length
+    return text || null
+  }
+
+  // 1. Philosophy (always load)
+  const phil = await readNote('Draft Philosophy.md')
+  if (phil) { result.philosophy = charge(phil, 800); result.loaded_files.push('Draft Philosophy.md') }
+
+  // 2. Patch notes
+  if (currentPatch) {
+    const patch = await readNote(`patches/${currentPatch}.md`)
+    if (patch) { result.patch_notes = charge(patch, 600); result.loaded_files.push(`patches/${currentPatch}.md`) }
+  }
+
+  // 3 & 4. Team notes
+  for (const team of [ourTeam, oppTeam]) {
+    const slug = slugify(team.team_name)
+    const note = await readNote(`teams/${slug}.md`)
+    if (note) { result.team_notes[team.team_name] = charge(note, 400); result.loaded_files.push(`teams/${slug}.md`) }
+  }
+
+  // 5. Player notes — all players from both rosters
+  const allPlayers = [...(ourTeam.players || []), ...(oppTeam.players || [])]
+  for (const p of allPlayers) {
+    if (!p.account_name) continue
+    const slug = slugify(p.account_name)
+    const note = await readNote(`players/${slug}.md`)
+    if (note) {
+      result.player_notes[p.account_name] = charge(note, 150)
+      result.loaded_files.push(`players/${slug}.md`)
+    }
+    if (used >= CHAR_BUDGET) break
+  }
+
+  // 6. Hero notes — for all heroes in both pools
+  for (const heroName of heroNames) {
+    if (used >= CHAR_BUDGET) break
+    const slug = slugify(heroName)
+    const note = await readNote(`heroes/${slug}.md`)
+    if (note) { result.hero_notes[heroName] = charge(note, 300); result.loaded_files.push(`heroes/${slug}.md`) }
+  }
+
+  // 7. Matchup notes — cross top heroes from each side
+  if (used < CHAR_BUDGET) {
+    const ourNames = heroNames.slice(0, 8)
+    const oppNames = heroNames.slice(-8)
+    for (const a of ourNames) {
+      for (const b of oppNames) {
+        if (a === b || used >= CHAR_BUDGET) continue
+        const sa = slugify(a), sb = slugify(b)
+        for (const p of [`matchups/${sa}_vs_${sb}.md`, `matchups/${sb}_vs_${sa}.md`]) {
+          const note = await readNote(p)
+          if (note) { result.matchup_notes[`${a}_vs_${b}`] = charge(note, 200); result.loaded_files.push(p); break }
+        }
+      }
+    }
+  }
+
+  // 8. Position notes — for positions in our roster
+  const positions = [...new Set((ourTeam.players || []).map(p => String(p.position)).filter(Boolean))]
+  for (const pos of positions) {
+    if (used >= CHAR_BUDGET) break
+    const note = await readNote(`positions/pos${pos}.md`)
+    if (note) { result.position_notes[pos] = charge(note, 300); result.loaded_files.push(`positions/pos${pos}.md`) }
+  }
+
+  result.total_chars = used
+  return result
+}
+
+function buildContextPacket({ ourTeam, oppTeam, ourWeighted, oppWeighted, ourBanData, oppBanData, leagueHeroes, league, radiant, firstPick, expertKnowledge }) {
   const fpIsOur = firstPick === ourTeam.team_name
   const t1 = fpIsOur ? ourTeam.team_name : oppTeam.team_name
   const t2 = fpIsOur ? oppTeam.team_name : ourTeam.team_name
@@ -322,6 +442,7 @@ function buildContextPacket({ ourTeam, oppTeam, ourWeighted, oppWeighted, ourBan
       phase5_bans:  'slots 19-22: T1B T2B T1B T2B',
       phase6_picks: 'slots 23-24: T1P T2P',
     },
+    expert_knowledge: expertKnowledge || null,
     generated_at: new Date().toISOString(),
   }
 }
@@ -361,9 +482,14 @@ RULES:
 6. SUPPORT PRIORITY TIEBREAKER: when two heroes offer similar value for a pick slot, prefer whichever fills an unassigned support position (4 or 5) over doubling up on an already-covered core position.
 7. ROLE-AWARE BANNING: track which positions are already locked in by picks as you fill each phase. In later ban phases (3 and 5), focus bans on roles the opposition still needs to fill or heroes that threaten our unassigned positions — do not waste late bans on roles both teams have already resolved.
 8. CONFIDENCE-PHASE RULE: hero confidence reflects how much current-tournament data supports the pick. In early phases (slots 1–12) use only HIGH and MEDIUM confidence heroes. Only introduce LOW confidence heroes in later phases (slots 13+) after bans and deny-picks have narrowed the pool and no HIGH/MEDIUM option adequately fills the remaining position. Never use a LOW confidence hero when a HIGH or MEDIUM option is still available for that slot.
-8. For opposition picks: position = null.
-9. Ban pressure: when banning a hero from top_banned_against, cite the ban rate % in reasoning.
-10. LOW-confidence picks: still fill the slot. Add ESCALATE_TO_B lines AFTER the JSON block if needed.
+9. For opposition picks: position = null.
+10. Ban pressure: when banning a hero from top_banned_against, cite the ban rate % in reasoning.
+11. LOW-confidence picks: still fill the slot. Add ESCALATE_TO_B lines AFTER the JSON block if needed.
+EXPERT KNOWLEDGE RULES (applies when expert_knowledge is present in context):
+12. Reference expert_knowledge in at least 2 slot reasonings where relevant. Cite with [PN: filename] at the end of the reasoning line.
+13. If any personal note conflicts with API data, note it in the STRATEGY section: "NOTE: Personal note conflicts with API data on <hero/player> — see [PN: filename]."
+14. Align the STRATEGY section with expert_knowledge.philosophy if present, or explicitly explain why this draft deviates from it.
+15. Never emit SAVE_NOTE directives — those are for the Knowledge tab only.
 ${DRAFT_LEGEND}`,
 
   a: `Dota 2 draft order specialist — sequencing and priority.
@@ -388,6 +514,13 @@ ${DRAFT_LEGEND}`,
 BAN INTELLIGENCE SECTION (required — list every hero with ban_pressure ≥ 0.2):
 Format: "Hero: XX% banned against us — [what this tells us about their comfort / draft priority]"
 
+PERSONAL KNOWLEDGE INTEGRATION (when expert_knowledge present):
+- Reference expert_knowledge.player_notes for our players when assessing hero comfort. Cite as "Per player note on <name>: ..."
+- Reference expert_knowledge.hero_notes for heroes in our pool. Cite as "Per personal note on <Hero>: ..."
+- Reference expert_knowledge.team_notes for our team's known draft tendencies.
+- If a personal note conflicts with API data, flag it: "CONFLICT: API shows X but personal note says Y — weighting personal note higher as more recent."
+- Always label the source: "API data" vs "personal note [filename]".
+
 For ESCALATION requests: TIEBREAK_DECISION: <hero>: <reason>`,
 
   c: `Dota 2 opposition counter-pick analyst — OPPOSITION ONLY.
@@ -399,7 +532,14 @@ For ESCALATION requests: TIEBREAK_DECISION: <hero>: <reason>`,
 6. Deliverables: top 5 must-ban targets | top 5 counter-picks for us | top 3 heroes to avoid.
 
 OPPOSITION BAN INTELLIGENCE SECTION (required — list every opp hero with ban_pressure ≥ 0.2 from opp_profile.top_banned_against):
-Format: "Hero: XX% ban rate — [whether we should ban it, secure it, or use it as a window]"`,
+Format: "Hero: XX% ban rate — [whether we should ban it, secure it, or use it as a window]"
+
+PERSONAL KNOWLEDGE INTEGRATION (when expert_knowledge present):
+- Use expert_knowledge.player_notes for opposition players to identify tendencies and hero comfort.
+- Use expert_knowledge.team_notes for the opposition to extract exploitable draft habits.
+- Use expert_knowledge.matchup_notes in counter-pick recommendations. Cite as "Per personal matchup note: ..."
+- Treat personal notes as higher-fidelity signal than statistical trends for individual player behaviour.
+- Flag conflicts: "CONFLICT: Stats suggest X but personal note says Y."`,
 
   d: `Dota 2 meta analyst. You may use web search for current patch notes.
 1. Compare team hero pools against current patch meta — always frame meta assessments by position/role (e.g. "strong carry", "dominant offlaner") not just hero name.
@@ -407,7 +547,42 @@ Format: "Hero: XX% ban rate — [whether we should ban it, secure it, or use it 
 3. Tendency signals: core_identity to respect, habit_picks to exploit.
 4. Confidence uses weighted_games: HIGH ≥ 10 / MEDIUM ≥ 5 / LOW < 5. Flag any heroes with LOW confidence whose win_rate_delta may be inflated by small samples.
 5. ROLE ACCURACY: do not assign meta observations to a player if that player does not typically play that hero's role. Check roster_by_position before suggesting any hero–player pairing.
-6. 3 key meta observations relevant to this matchup, each specifying the position/role it applies to.`,
+6. 3 key meta observations relevant to this matchup, each specifying the position/role it applies to.
+
+PERSONAL KNOWLEDGE INTEGRATION (when expert_knowledge present):
+- Cross-reference expert_knowledge.patch_notes against web search. Prefer personal patch notes for positional/role nuance; use web search for global win rate shifts.
+- Frame meta recommendations in context of expert_knowledge.philosophy if present; flag deviations.
+- Incorporate expert_knowledge.position_notes into positional meta observations.
+- Cite sources: "current meta (web search)" vs "personal patch note" vs "personal position note".`,
+
+  knowledge_chat: (() => {
+    const today = new Date().toISOString().split('T')[0]
+    return `You are a personal Dota 2 knowledge assistant for a semi-professional player.
+Help them capture and organise draft insights into their personal knowledge vault.
+
+When the user tells you something worth saving — a matchup observation, player tendency, hero note, item build impact, positional meta, or draft philosophy — you MUST:
+1. Confirm the insight in one sentence.
+2. Pick the correct file path from these categories:
+   - heroes/<hero_name>.md
+   - matchups/<hero_a>_vs_<hero_b>.md
+   - positions/pos<1-5>.md
+   - players/<account_name>.md
+   - teams/<team_name>.md
+   - items/<item_name>.md
+   - patches/<version>.md
+   - Draft Philosophy.md  (general drafting principles)
+3. Mode: "append" by default. Use "overwrite" only if user says "replace" or "rewrite".
+4. Format the note content as: "> [${today}]: <your observation>"
+5. Output a SAVE_NOTE directive on its own line:
+   SAVE_NOTE: <relative/path.md> | <mode> | <formatted content>
+
+File path rules: lowercase, underscores for spaces, no apostrophes or special chars.
+Examples: heroes/phantom_assassin.md, players/miracle.md, teams/team_liquid.md
+Do NOT use blank lines inside the SAVE_NOTE content.
+
+If the user is just asking a question, answer helpfully — no SAVE_NOTE needed.
+If the user asks to see a note or browse notes, describe what they should look for in the sidebar.`
+  })(),
 }
 
 // ── Lead output parser ────────────────────────────────────────────────────────
@@ -680,19 +855,85 @@ export default function DraftAI() {
   const [cmdVal, setCmdVal] = useState('')
   const [cmdHist, setCmdHist] = useState([])
 
+  // Knowledge base tab state
+  const [activeTab, setActiveTab] = useState('draft')
+  const [kbMessages, setKbMessages] = useState([])
+  const [kbInput, setKbInput] = useState('')
+  const [kbLoading, setKbLoading] = useState(false)
+  const [noteTree, setNoteTree] = useState([])
+  const [noteTreeLoading, setNoteTreeLoading] = useState(false)
+  const [selectedNote, setSelectedNote] = useState(null)
+  const [currentDir, setCurrentDir] = useState('')
+
   const cache = useRef(emptyCache())
   const logEnd = useRef(null)
+  const kbEnd = useRef(null)
 
   const addLog = useCallback(msg =>
     setLogs(p => [...p, `[${new Date().toLocaleTimeString()}] ${msg}`]), [])
   useEffect(() => { logEnd.current?.scrollIntoView({ behavior: 'smooth' }) }, [logs])
   useEffect(() => { cache.current = emptyCache() }, [season])
+  useEffect(() => { kbEnd.current?.scrollIntoView({ behavior: 'smooth' }) }, [kbMessages])
 
   useEffect(() => {
     fetch('/api/claude/v1/models', { headers: { 'Content-Type': 'application/json' } })
       .then(r => setAnthropicKeyOk(r.status !== 401 && r.status !== 403))
       .catch(() => setAnthropicKeyOk(false))
   }, [])
+
+  const loadNoteTree = useCallback(async (dir = '') => {
+    setNoteTreeLoading(true)
+    try {
+      const r = await fetch(`/api/notes/list?dir=${encodeURIComponent(dir)}`)
+      const entries = await r.json()
+      setNoteTree(Array.isArray(entries) ? entries : [])
+      setCurrentDir(dir)
+    } catch { /* silent */ }
+    setNoteTreeLoading(false)
+  }, [])
+
+  const loadNoteContent = useCallback(async (relPath) => {
+    try {
+      const r = await fetch(`/api/notes/read?path=${encodeURIComponent(relPath)}`)
+      if (!r.ok) { setSelectedNote({ path: relPath, content: '(file not found)' }); return }
+      const text = await r.text()
+      setSelectedNote({ path: relPath, content: text })
+    } catch { /* silent */ }
+  }, [])
+
+  // Auto-load vault root when switching to knowledge tab
+  useEffect(() => {
+    if (activeTab === 'knowledge' && noteTree.length === 0) loadNoteTree('')
+  }, [activeTab, noteTree.length, loadNoteTree])
+
+  const sendKbMessage = useCallback(async () => {
+    const userText = kbInput.trim()
+    if (!userText || kbLoading) return
+    setKbInput('')
+    setKbLoading(true)
+    setKbMessages(m => [...m, { role: 'user', text: userText }])
+    try {
+      const history = kbMessages.slice(-8)
+        .map(m => `${m.role === 'user' ? 'User' : 'Assistant'}: ${m.text.replace(/SAVE_NOTE:[\s\S]*?(?=\n\n|$)/, '').trim()}`)
+        .join('\n')
+      const prompt = history ? `${history}\nUser: ${userText}` : userText
+      const response = await callClaude(SYS.knowledge_chat, prompt, false, 600)
+      const directive = parseSaveDirective(response)
+      let savedPath = null
+      if (directive) {
+        await executeNoteSave(directive)
+        savedPath = directive.path
+        // Refresh sidebar if we're in the same folder the file was saved to
+        const savedDir = directive.path.includes('/') ? directive.path.split('/').slice(0, -1).join('/') : ''
+        if (savedDir === currentDir || currentDir === '') loadNoteTree(currentDir)
+      }
+      setKbMessages(m => [...m, { role: 'assistant', text: response, savedPath }])
+    } catch (e) {
+      setKbMessages(m => [...m, { role: 'assistant', text: `Error: ${e.message}` }])
+    } finally {
+      setKbLoading(false)
+    }
+  }, [kbInput, kbLoading, kbMessages, currentDir, loadNoteTree])
 
   const loadLeagues = useCallback(async () => {
     setLoadingLeagues(true)
@@ -766,10 +1007,20 @@ export default function DraftAI() {
       const radiant = radiantSide === 'our' ? ourTeam.team_name : oppTeam.team_name
       const fp      = firstPick   === 'our' ? ourTeam.team_name : oppTeam.team_name
 
+      addLog('Loading personal knowledge base…')
+      const heroNames = [...new Set([
+        ...ourWeighted.flatMap(e => e.heroes).map(h => h.name || h.raw_name),
+        ...oppWeighted.flatMap(e => e.heroes).map(h => h.name || h.raw_name),
+      ].filter(Boolean))]
+      const expertKnowledge = await loadRelevantNotes(ourTeam, oppTeam, heroNames, currentPatch)
+        .catch(e => { addLog(`Knowledge load warning: ${e.message}`); return null })
+      if (expertKnowledge) addLog(`Knowledge: ${expertKnowledge.loaded_files.length} file(s), ${expertKnowledge.total_chars} chars${expertKnowledge.truncated ? ' (truncated)' : ''}`)
+
       addLog('Building context packet…')
       const packet = buildContextPacket({
         ourTeam, oppTeam, ourWeighted, oppWeighted, ourBanData, oppBanData,
         leagueHeroes, league: selectedLeague, radiant, firstPick: fp,
+        expertKnowledge,
       })
 
       addLog('Dispatching agents…')
@@ -864,8 +1115,20 @@ export default function DraftAI() {
         )}
       </div>
 
-      {/* Body */}
-      <div style={{ display: 'grid', gridTemplateColumns: '280px 1fr', flex: 1, overflow: 'hidden' }}>
+      {/* Tab bar */}
+      <div style={{ borderBottom: `1px solid ${C.border}`, background: C.surf, display: 'flex', flexShrink: 0 }}>
+        {[{ id: 'draft', label: 'Draft Simulator' }, { id: 'knowledge', label: 'Knowledge Base' }].map(tab => (
+          <button key={tab.id} onClick={() => setActiveTab(tab.id)} style={{
+            padding: '8px 20px', border: 'none', background: 'transparent', cursor: 'pointer',
+            fontFamily: 'inherit', fontSize: '10px', letterSpacing: '1.5px', textTransform: 'uppercase', fontWeight: '700',
+            color: activeTab === tab.id ? C.accent : C.muted,
+            borderBottom: `2px solid ${activeTab === tab.id ? C.accent : 'transparent'}`,
+          }}>{tab.label}</button>
+        ))}
+      </div>
+
+      {/* Draft tab body */}
+      {activeTab === 'draft' && <div style={{ display: 'grid', gridTemplateColumns: '280px 1fr', flex: 1, overflow: 'hidden' }}>
 
         {/* Sidebar */}
         <div style={{ borderRight: `1px solid ${C.border}`, padding: '14px', overflowY: 'auto', background: C.surf, display: 'flex', flexDirection: 'column', gap: '14px' }}>
@@ -1185,7 +1448,121 @@ export default function DraftAI() {
             </div>
           )}
         </div>
-      </div>
+      </div>}
+
+      {/* Knowledge Base tab body */}
+      {activeTab === 'knowledge' && (
+        <div style={{ display: 'grid', gridTemplateColumns: '220px 1fr', flex: 1, overflow: 'hidden' }}>
+
+          {/* Note browser sidebar */}
+          <div style={{ borderRight: `1px solid ${C.border}`, padding: '12px 10px', overflowY: 'auto', background: C.surf, display: 'flex', flexDirection: 'column', gap: '2px' }}>
+            <div style={{ color: C.accent, fontSize: '9px', letterSpacing: '2px', textTransform: 'uppercase', fontWeight: '700', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+              {currentDir ? `📂 ${currentDir}` : 'Vault Root'}
+              {currentDir && (
+                <button onClick={() => loadNoteTree(currentDir.includes('/') ? currentDir.split('/').slice(0, -1).join('/') : '')}
+                  style={{ background: 'none', border: 'none', color: C.muted, cursor: 'pointer', fontSize: '10px', padding: '0 2px' }}>↑</button>
+              )}
+            </div>
+            {noteTreeLoading && <div style={{ color: C.MED, fontSize: '10px' }}>Loading…</div>}
+            {!noteTreeLoading && noteTree.length === 0 && (
+              <div style={{ color: C.dim, fontSize: '10px', lineHeight: '1.8' }}>
+                Vault is empty.<br />Chat to create your first note.
+              </div>
+            )}
+            {noteTree.map(entry => (
+              <div key={entry.path}
+                onClick={() => entry.type === 'dir' ? loadNoteTree(entry.path) : loadNoteContent(entry.path)}
+                style={{
+                  padding: '4px 7px', borderRadius: '3px', cursor: 'pointer', fontSize: '11px',
+                  color: entry.type === 'dir' ? C.accent : C.text,
+                  background: selectedNote?.path === entry.path ? C.accent + '18' : 'transparent',
+                  display: 'flex', alignItems: 'center', gap: '5px',
+                }}
+                onMouseEnter={e => { if (selectedNote?.path !== entry.path) e.currentTarget.style.background = C.border + '80' }}
+                onMouseLeave={e => { if (selectedNote?.path !== entry.path) e.currentTarget.style.background = 'transparent' }}
+              >
+                <span style={{ opacity: 0.6, fontSize: '10px' }}>{entry.type === 'dir' ? '📁' : '📄'}</span>
+                <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{entry.name}</span>
+              </div>
+            ))}
+          </div>
+
+          {/* Chat + note viewer */}
+          <div style={{ display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+
+            {/* Selected note viewer */}
+            {selectedNote && (
+              <div style={{ borderBottom: `1px solid ${C.border}`, maxHeight: '220px', overflowY: 'auto', background: C.bg }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '8px 14px 6px', position: 'sticky', top: 0, background: C.bg, borderBottom: `1px solid ${C.border}` }}>
+                  <span style={{ color: C.accent, fontSize: '10px', letterSpacing: '1px' }}>{selectedNote.path}</span>
+                  <button onClick={() => setSelectedNote(null)}
+                    style={{ background: 'none', border: 'none', color: C.muted, cursor: 'pointer', fontSize: '13px', lineHeight: 1 }}>✕</button>
+                </div>
+                <pre style={{ color: C.text, fontSize: '11px', lineHeight: '1.75', whiteSpace: 'pre-wrap', margin: 0, padding: '8px 14px 12px' }}>
+                  {selectedNote.content}
+                </pre>
+              </div>
+            )}
+
+            {/* Chat messages */}
+            <div style={{ flex: 1, overflowY: 'auto', padding: '16px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+              {kbMessages.length === 0 && (
+                <div style={{ textAlign: 'center', marginTop: '40px', lineHeight: '2.2' }}>
+                  <div style={{ color: C.accent, fontSize: '13px', fontWeight: '800', letterSpacing: '2px', marginBottom: '10px' }}>Knowledge Base</div>
+                  <div style={{ color: C.muted, fontSize: '11px' }}>
+                    Tell me something worth remembering.<br />
+                    <span style={{ color: C.dim }}>"Miracle has been avoiding Invoker this patch"</span><br />
+                    <span style={{ color: C.dim }}>"Dragon Knight hard counters Tidehunter at pro level"</span><br />
+                    <span style={{ color: C.dim }}>"Our pos 4 loves Blink Dagger openers on roamers"</span>
+                  </div>
+                </div>
+              )}
+              {kbMessages.map((msg, i) => (
+                <div key={i} style={{ display: 'flex', flexDirection: 'column', alignItems: msg.role === 'user' ? 'flex-end' : 'flex-start' }}>
+                  <div style={{
+                    maxWidth: '80%', padding: '8px 12px', borderRadius: '4px', lineHeight: '1.7', fontSize: '11.5px',
+                    background: msg.role === 'user' ? C.accent + '15' : C.surf,
+                    border: `1px solid ${msg.role === 'user' ? C.accent + '35' : C.border}`,
+                    color: C.text,
+                  }}>
+                    {msg.text.replace(/SAVE_NOTE:[\s\S]*?(?=\n\n[A-Z]|\n\nSAVE_NOTE:|\s*$)/, '').trim()}
+                  </div>
+                  {msg.savedPath && (
+                    <div style={{ color: C.HIGH, fontSize: '9.5px', marginTop: '3px', letterSpacing: '0.5px' }}>
+                      ✓ saved → {msg.savedPath}
+                    </div>
+                  )}
+                </div>
+              ))}
+              {kbLoading && (
+                <div style={{ alignSelf: 'flex-start', color: C.MED, fontSize: '10px', padding: '6px 10px', background: C.surf, border: `1px solid ${C.border}`, borderRadius: '3px' }}>
+                  Thinking…
+                </div>
+              )}
+              <div ref={kbEnd} />
+            </div>
+
+            {/* Chat input */}
+            <div style={{ borderTop: `1px solid ${C.border}`, padding: '10px 14px', background: C.surf, display: 'flex', gap: '8px', flexShrink: 0 }}>
+              <input
+                style={{ ...inp, flex: 1 }}
+                placeholder="Share a Dota observation to save…"
+                value={kbInput}
+                onChange={e => setKbInput(e.target.value)}
+                onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) sendKbMessage() }}
+                disabled={kbLoading}
+              />
+              <button
+                onClick={sendKbMessage}
+                disabled={kbLoading || !kbInput.trim()}
+                style={{ ...btn(C.accent, kbLoading || !kbInput.trim()), width: 'auto', padding: '8px 16px', marginBottom: 0 }}
+              >
+                Save
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

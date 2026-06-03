@@ -7,7 +7,12 @@
       "Bash(\"/c/Program Files/Microsoft Visual Studio/18/Community/MSBuild/Microsoft/VisualStudio/NodeJs/node.exe\" node_modules/.bin/vite --host)",
       "Bash(gh auth *)",
       "Bash(git --version)",
-      "Bash(where git *)"
+      "Bash(where git *)",
+      "Bash(where npx *)",
+      "Bash(npx --yes @modelcontextprotocol/server-filesystem --version)",
+      "Bash(\"C:\\\\Program Files\\\\Microsoft Visual Studio\\\\18\\\\Community\\\\MSBuild\\\\Microsoft\\\\VisualStudio\\\\NodeJs\\\\node.exe\" --version)",
+      "Bash(\"C:\\\\Program Files\\\\Microsoft Visual Studio\\\\18\\\\Community\\\\MSBuild\\\\Microsoft\\\\VisualStudio\\\\NodeJs\\\\npm.cmd\" --version)",
+      "Bash(\"C:\\\\Program Files\\\\Microsoft Visual Studio\\\\18\\\\Community\\\\MSBuild\\\\Microsoft\\\\VisualStudio\\\\NodeJs\\\\npm.cmd\" install @modelcontextprotocol/server-filesystem)"
     ]
   }
 }
